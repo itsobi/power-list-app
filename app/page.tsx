@@ -1,10 +1,9 @@
-import { Button } from '@radix-ui/themes';
-import Image from 'next/image';
-
 export default function Home() {
   return (
-    <div>
-      <h1 className="text-green-600">hello</h1>
-    </div>
+    <main className="flex items-center justify-center h-screen">
+      <div className="p-48 rounded-lg bg-green-500">
+        <h1>Login form here</h1>
+      </div>
+    </main>
   );
 }
