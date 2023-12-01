@@ -1,7 +1,6 @@
 export default function Navbar() {
   return (
     <div className="flex justify-center space-x-6 p-6 border-b shadow-sm relative">
-      <p>Todo</p>
       <p>Planner</p>
       <p>Sports</p>
 
