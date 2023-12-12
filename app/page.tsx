@@ -1,9 +1,9 @@
-import LoginForm from '@/app/ui/LoginForm';
+import Navbar from './ui/Navbar';
 
 export default function Home() {
   return (
-    <main className="flex justify-center items-center h-screen">
-      <LoginForm title="Register" />
-    </main>
+    <div>
+      <Navbar />
+    </div>
   );
 }
