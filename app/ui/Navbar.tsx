@@ -1,3 +1,5 @@
+import { UserButton } from '@clerk/nextjs';
+
 export default function Navbar() {
   return (
     <div className="flex justify-center space-x-6 p-6 border-b shadow-sm relative">
@@ -5,7 +7,7 @@ export default function Navbar() {
       <p>Sports</p>
 
       <div className="absolute top-6 right-6">
-        <p>avatar here</p>
+        <UserButton afterSignOutUrl="/" />
       </div>
     </div>
   );
