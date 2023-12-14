@@ -7,7 +7,7 @@ export default function Navbar() {
       <p>Sports</p>
 
       <div className="absolute top-6 right-6">
-        <UserButton afterSignOutUrl="/" />
+        <UserButton afterSignOutUrl="/login" />
       </div>
     </div>
   );
