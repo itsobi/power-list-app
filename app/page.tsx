@@ -1,4 +1,4 @@
-export default function Dashboard() {
+export default function Home() {
   return (
     <div className="flex justify-center items-center mt-40">
       <h1 className="font-bold text-2xl lg:font-bold lg:text-4xl">
