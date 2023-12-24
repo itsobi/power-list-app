@@ -1,4 +1,4 @@
-import { ClerkProvider } from '@clerk/nextjs';
+import { ClerkProvider, SignedIn } from '@clerk/nextjs';
 import { Theme } from '@radix-ui/themes';
 import './globals.css';
 import '@radix-ui/themes/styles.css';
@@ -22,7 +22,9 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className={inter.className}>
-          <Navbar />
+          <SignedIn>
+            <Navbar />
+          </SignedIn>
           <Theme>{children}</Theme>
         </body>
       </html>
