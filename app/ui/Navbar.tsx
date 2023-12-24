@@ -7,16 +7,12 @@ import { usePathname } from 'next/navigation';
 
 const links = [
   {
-    name: 'Dashboard',
+    name: 'Home',
     href: '/',
   },
   {
-    name: 'Planner',
-    href: '/planner',
-  },
-  {
-    name: 'Sports',
-    href: '/sports',
+    name: 'Power List',
+    href: '/power-list',
   },
 ];
 
@@ -24,16 +20,22 @@ export default function Navbar() {
   const pathname = usePathname();
   return (
     <div className="flex justify-center space-x-6 p-6 border-b shadow-sm relative">
-      {links.map((link) => (
-        <Link
-          href={link.href}
-          className={clsx('text-sm font-medium hover:text-blue-600', {
-            'text-blue-600': pathname === link.href,
-          })}
-        >
-          {link.name}
-        </Link>
-      ))}
+      {links.map((link) => {
+        const isCurrent =
+          link.href === '/'
+            ? pathname === '/'
+            : pathname.includes(link.href.split('/')[1]);
+        return (
+          <Link
+            href={link.href}
+            className={clsx('text-sm font-medium hover:text-blue-600', {
+              'text-blue-600': isCurrent,
+            })}
+          >
+            {link.name}
+          </Link>
+        );
+      })}
 
       <div className="absolute top-6 right-6">
         <UserButton afterSignOutUrl="/login" />
