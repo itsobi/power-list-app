@@ -5,6 +5,7 @@ import '@radix-ui/themes/styles.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import Navbar from './ui/Navbar';
+import Footer from './ui/Footer';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -26,6 +27,9 @@ export default function RootLayout({
             <Navbar />
           </SignedIn>
           <Theme>{children}</Theme>
+          <SignedIn>
+            <Footer />
+          </SignedIn>
         </body>
       </html>
     </ClerkProvider>
