@@ -20,13 +20,14 @@ export default function Navbar() {
   const pathname = usePathname();
   return (
     <div className="flex justify-center space-x-6 p-6 border-b shadow-sm relative">
-      {links.map((link) => {
+      {links.map((link, index) => {
         const isCurrent =
           link.href === '/'
             ? pathname === '/'
             : pathname.includes(link.href.split('/')[1]);
         return (
           <Link
+            key={index}
             href={link.href}
             className={clsx('text-sm font-medium hover:text-blue-600', {
               'text-blue-600': isCurrent,
