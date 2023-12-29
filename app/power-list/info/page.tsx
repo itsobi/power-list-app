@@ -20,7 +20,7 @@ export default function InfoPage() {
         everything for you.
       </p>
       <div className="text-center mt-4">
-        <BackButton className="text-blue-600 font-bold hover:text-blue-700">
+        <BackButton className="text-blue-600 font-bold hover:text-blue-700 hover:underline">
           Give it a try!
         </BackButton>
       </div>
@@ -30,7 +30,7 @@ export default function InfoPage() {
         target="_blank"
         rel="noopener noreferrer"
       >
-        <p className="text-center mt-2 font-extralight text-sm hover:text-slate-600">
+        <p className="text-center mt-2 font-extralight text-sm hover:text-slate-600 hover:underline">
           Read more about the "Power List"
         </p>
       </a>{' '}
