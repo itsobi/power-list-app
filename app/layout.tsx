@@ -27,9 +27,9 @@ export default function RootLayout({
             <Navbar />
           </SignedIn>
           <Theme>{children}</Theme>
-          <SignedIn>
+          {/* <SignedIn>
             <Footer />
-          </SignedIn>
+          </SignedIn> */}
         </body>
       </html>
     </ClerkProvider>

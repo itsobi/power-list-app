@@ -1,22 +1,19 @@
 'use client';
 
-import {
-  addDoc,
-  collection,
-  doc,
-  getDocs,
-  serverTimestamp,
-} from 'firebase/firestore';
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import Link from 'next/link';
 import { db } from '../../firebase/config';
 import { useUser } from '@clerk/nextjs';
 import TaskList from './TaskList';
 import { Button } from '@radix-ui/themes';
 import { useState } from 'react';
+import { getTasks } from '@/helpers/taskHelpers';
+import { useTasksContext } from '../Context/store';
 
 export default function PowerList() {
   const { user } = useUser();
   const [task, setTask] = useState('');
+  const { setTasks } = useTasksContext();
   const [disableButton, setDisableButton] = useState(false);
 
   const submitTask = async (e: React.FormEvent) => {
@@ -43,6 +40,7 @@ export default function PowerList() {
           timestamp: serverTimestamp(),
           isCompleted: false,
         });
+        await getTasks(user, setTasks); // updating the new list of tasks
       } catch (error) {
         console.error(error);
         alert('Sorry, there was an issue creating you task...');
@@ -79,7 +77,7 @@ export default function PowerList() {
         </span>
       </Link>
 
-      <div className="flex justify-center items-center mt-20 w-full">
+      <div className="flex justify-center items-center my-10 w-full">
         <TaskList />
       </div>
     </>

@@ -5,10 +5,20 @@ import { DocumentData } from 'firebase/firestore';
 import { useState } from 'react';
 import { FaTrash } from 'react-icons/fa';
 
-export default function Task({ task }: { task: DocumentData }) {
+export default function Task({
+  task,
+  bottomBorder,
+}: {
+  task: DocumentData;
+  bottomBorder: boolean;
+}) {
   const [crossOutText, setCrossOutText] = useState(false);
   return (
-    <div className="grid grid-cols-3 border-b p-4">
+    <div
+      className={`grid grid-cols-3 ${
+        bottomBorder ? 'border-b border-b-blue-600' : 'border-none'
+      } p-4`}
+    >
       <div className="flex justify-center items-center">
         <p className={crossOutText ? 'line-through font-extralight' : 'none'}>
           {task.task}
