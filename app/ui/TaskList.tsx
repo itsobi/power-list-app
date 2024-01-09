@@ -1,8 +1,5 @@
-'use client';
-
 import { getDate } from '@/helpers/dateHelpers';
 import Task from './Task';
-import { useUser } from '@clerk/nextjs';
 import { DocumentData } from 'firebase/firestore';
 import { useTasksContext } from '../Context/store';
 
@@ -15,7 +12,11 @@ export default function TaskList() {
         <p className="font-bold">{getDate()}</p>
       </div>
       {tasks.map((task: DocumentData, index: number) => (
-        <Task task={task} bottomBorder={index !== tasks.length - 1} />
+        <Task
+          task={task}
+          bottomBorder={index !== tasks.length - 1}
+          key={task.timestamp}
+        />
       ))}
     </div>
   );

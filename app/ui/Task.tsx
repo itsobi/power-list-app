@@ -1,5 +1,3 @@
-'use client';
-
 import { IconButton } from '@radix-ui/themes';
 import { DocumentData } from 'firebase/firestore';
 import { useState } from 'react';
@@ -20,7 +18,11 @@ export default function Task({
       } p-4`}
     >
       <div className="flex justify-center items-center">
-        <p className={crossOutText ? 'line-through font-extralight' : 'none'}>
+        <p
+          className={`text-center ${
+            crossOutText ? 'line-through font-extralight' : 'none'
+          }`}
+        >
           {task.task}
         </p>
       </div>

@@ -1,6 +1,7 @@
 import { db } from '@/firebase/config';
 import { DocumentData, collection, getDocs } from 'firebase/firestore';
 import { SetStateAction } from 'react';
+import { collectionDate } from './dateHelpers';
 
 export const getTasks = async (
   user: any,
@@ -9,7 +10,7 @@ export const getTasks = async (
   if (!user) return;
   try {
     const querySnapshot = await getDocs(
-      collection(db, 'users', user.id, 'tasks')
+      collection(db, 'tasks', user.id, collectionDate())
     );
     const userTasks = querySnapshot.docs.map((doc) => doc.data());
 

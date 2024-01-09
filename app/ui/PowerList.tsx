@@ -1,5 +1,3 @@
-'use client';
-
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import Link from 'next/link';
 import { db } from '../../firebase/config';
@@ -9,6 +7,7 @@ import { Button } from '@radix-ui/themes';
 import { useState } from 'react';
 import { getTasks } from '@/helpers/taskHelpers';
 import { useTasksContext } from '../Context/store';
+import { collectionDate } from '@/helpers/dateHelpers';
 
 export default function PowerList() {
   const { user } = useUser();
@@ -33,7 +32,7 @@ export default function PowerList() {
       return;
     } else {
       try {
-        await addDoc(collection(db, 'users', user.id, 'tasks'), {
+        await addDoc(collection(db, 'tasks', user.id, collectionDate()), {
           userId: user.id,
           name: user.fullName,
           task,
