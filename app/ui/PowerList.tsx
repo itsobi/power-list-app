@@ -42,7 +42,7 @@ export default function PowerList() {
         await getTasks(user, setTasks); // updating the new list of tasks
       } catch (error) {
         console.error(error);
-        alert('Sorry, there was an issue creating you task...');
+        alert('Sorry, there was an issue creating your power list task...');
       } finally {
         setTask('');
         setDisableButton(false);
