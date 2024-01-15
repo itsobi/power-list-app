@@ -1,33 +1,49 @@
+import { db } from '@/firebase/config';
+import { collectionDate } from '@/helpers/dateHelpers';
+import { getTasks } from '@/helpers/taskHelpers';
+import { useUser } from '@clerk/nextjs';
+import { Button } from '@radix-ui/themes';
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import Link from 'next/link';
-import { db } from '../../firebase/config';
-import { useUser } from '@clerk/nextjs';
-import TaskList from './TaskList';
-import { Button } from '@radix-ui/themes';
-import { useState } from 'react';
-import { getTasks } from '@/helpers/taskHelpers';
-import { useTasksContext } from '../Context/store';
-import { collectionDate } from '@/helpers/dateHelpers';
+import React, { Dispatch, SetStateAction, useState } from 'react';
+import { useTasksContext } from '../context/store';
 
-export default function PowerList() {
+export default function PowerListForm({
+  tasks,
+  setTasks,
+}: {
+  tasks: any[];
+  setTasks: Dispatch<SetStateAction<any[]>>;
+}) {
   const { user } = useUser();
+
   const [task, setTask] = useState('');
-  const { setTasks } = useTasksContext();
   const [disableButton, setDisableButton] = useState(false);
+
+  // const { tasks, setTasks } = useTasksContext();
 
   const submitTask = async (e: React.FormEvent) => {
     e.preventDefault();
 
     setDisableButton(true);
 
-    if (!user) return;
-
-    if (!task) {
-      alert('You must enter a task to submit.');
+    if (!user) {
       setDisableButton(false);
       return;
-    } else if (task.length < 3) {
-      alert('Your task must contain at least 3 characters');
+    }
+
+    if (!task) {
+      alert('Please enter a task.');
+      setDisableButton(false);
+      return;
+    } else if (task.length < 3 || task.length > 100) {
+      alert(
+        'Please enter a valid string that is at least 3 characters long and no more than 100 characters.'
+      );
+      setDisableButton(false);
+      return;
+    } else if (tasks?.length === 5) {
+      alert('You have reached the max amount of power list tasks for the day.');
       setDisableButton(false);
       return;
     } else {
@@ -49,7 +65,6 @@ export default function PowerList() {
       }
     }
   };
-
   return (
     <>
       <form onSubmit={submitTask} className="flex justify-center items-center">
@@ -75,10 +90,6 @@ export default function PowerList() {
           What is a Power List?
         </span>
       </Link>
-
-      <div className="flex justify-center items-center my-10 w-full">
-        <TaskList />
-      </div>
     </>
   );
 }

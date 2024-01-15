@@ -1,11 +1,10 @@
 'use client';
 
-import { DocumentData } from 'firebase/firestore';
 import { Dispatch, SetStateAction, createContext, useContext } from 'react';
 
 export type TasksGlobalContext = {
-  tasks: DocumentData[] | [];
-  setTasks: Dispatch<SetStateAction<DocumentData[]>>;
+  tasks: any[];
+  setTasks: Dispatch<SetStateAction<any[]>>;
 };
 
 export const TasksGlobalContext = createContext<TasksGlobalContext>({
