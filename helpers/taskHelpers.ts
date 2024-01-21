@@ -4,6 +4,8 @@ import {
   collection,
   doc,
   getDocs,
+  orderBy,
+  query,
   updateDoc,
 } from 'firebase/firestore';
 import { Dispatch, SetStateAction } from 'react';
@@ -14,10 +16,14 @@ export const getTasks = async (
   setTasks: (value: SetStateAction<DocumentData[]>) => void
 ) => {
   if (!user) return;
+  const collectionRef = collection(db, 'tasks', user.id, collectionDate());
+  const q = query(collectionRef, orderBy('timestamp'));
+
   try {
-    const querySnapshot = await getDocs(
-      collection(db, 'tasks', user.id, collectionDate())
-    );
+    const querySnapshot = await getDocs(q);
+    // const querySnapshot = await getDocs(
+    //   collection(db, 'tasks', user.id, collectionDate())
+    // );
 
     const userTasks = querySnapshot.docs.map((doc) => ({
       ...doc.data(),

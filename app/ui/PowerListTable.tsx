@@ -70,7 +70,11 @@ export default function PowerListTable({
                 }
               >
                 <td className={styles.td}>{index + 1}</td>
-                <td className={`${styles.td} ${styles.maxWidthCell}`}>
+                <td
+                  className={`${styles.td} ${styles.maxWidthCell} ${
+                    task.isCompleted && 'line-through'
+                  }`}
+                >
                   {task.task}
                 </td>
                 <td className={styles.td}>
