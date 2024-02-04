@@ -1,9 +1,16 @@
-import styles from '../syles/table.module.css';
 import { collectionDate } from '@/helpers/dateHelpers';
 import { deleteDoc, doc, updateDoc } from 'firebase/firestore';
-import { Button } from '@radix-ui/themes';
+import {
+  Button,
+  TableBody,
+  TableCell,
+  TableColumnHeaderCell,
+  TableHeader,
+  TableRoot,
+  TableRow,
+} from '@radix-ui/themes';
 import Container from './Container';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { useUser } from '@clerk/nextjs';
 import { db } from '@/firebase/config';
 import { getTasks } from '@/helpers/taskHelpers';
@@ -16,6 +23,9 @@ export default function PowerListTable({
   setTasks: Dispatch<SetStateAction<any[]>>;
 }) {
   const { user } = useUser();
+  const [disableCheckbox, setDisableCheckbox] = useState(false);
+
+  console.log({ tasks });
 
   const handleDelete = async (taskId: any) => {
     if (!user) {
@@ -30,72 +40,69 @@ export default function PowerListTable({
   };
 
   // TODO: handle spamming checkbox when function is running.
-  const handleCheckbox = async (task: any, taskId: any, value: boolean) => {
+  const handleCheckbox = async (taskId: any, value: boolean) => {
     if (!user) {
       alert('unable to update this task.');
       return;
     }
     try {
+      setDisableCheckbox(true);
       await updateDoc(doc(db, 'tasks', user.id, collectionDate(), taskId), {
         isCompleted: value,
       });
-
       getTasks(user, setTasks);
+      setDisableCheckbox(false);
     } catch (error) {
       console.error(error);
     } finally {
+      setDisableCheckbox(false);
     }
   };
 
   if (tasks.length) {
     return (
-      <table className="w-full border-collapse">
-        <thead className="p-2 text-left">
-          <tr>
-            <th></th>
-            <th className={styles.td}>Task</th>
-            <th className={styles.td}>Completed</th>
-            <th colSpan={2} className={styles.td}>
-              Actions
-            </th>
-          </tr>
-        </thead>
-        <tbody>
+      <TableRoot>
+        <TableHeader>
+          <TableRow align="center">
+            <TableColumnHeaderCell></TableColumnHeaderCell>
+            <TableColumnHeaderCell justify="center">Task</TableColumnHeaderCell>
+            <TableColumnHeaderCell justify="center">
+              Completed
+            </TableColumnHeaderCell>
+            <TableColumnHeaderCell justify="center">
+              Action
+            </TableColumnHeaderCell>
+          </TableRow>
+        </TableHeader>
+
+        <TableBody>
           {tasks.map((task, index) => {
             return (
-              <tr
-                key={task.id}
-                className={
-                  index % 2 === 0 ? `${styles.evenRow}` : `${styles.row}`
-                }
-              >
-                <td className={styles.td}>{index + 1}</td>
-                <td
-                  className={`${styles.td} ${styles.maxWidthCell} ${
-                    task.isCompleted && 'line-through'
-                  }`}
-                >
-                  {task.task}
-                </td>
-                <td className={styles.td}>
+              <TableRow key={task.id} align="center">
+                <TableCell>{index + 1}</TableCell>
+                <TableCell justify="center">
+                  <p className={`${task.isCompleted && 'line-through'}`}>
+                    {task.task}
+                  </p>
+                </TableCell>
+                <TableCell justify="center">
                   <input
                     type="checkbox"
                     checked={task.isCompleted}
-                    onChange={(e) =>
-                      handleCheckbox(task, task.id, e.target.checked)
-                    }
+                    onChange={(e) => handleCheckbox(task.id, e.target.checked)}
+                    disabled={disableCheckbox}
                   />
-                </td>
-                <td className={styles.td}>
-                  <Button color="red" onClick={() => handleDelete(task.id)}>
+                </TableCell>
+                <TableCell justify="center">
+                  <Button onClick={() => handleDelete(task.id)} color="red">
                     Delete
                   </Button>
-                </td>
-              </tr>
+                </TableCell>
+              </TableRow>
             );
           })}
-        </tbody>
-      </table>
+        </TableBody>
+      </TableRoot>
     );
   }
 
