@@ -14,6 +14,7 @@ import { Dispatch, SetStateAction, useState } from 'react';
 import { useUser } from '@clerk/nextjs';
 import { db } from '@/firebase/config';
 import { getTasks } from '@/helpers/taskHelpers';
+import { Task } from '@/typings';
 
 export default function PowerListTable({
   tasks,
@@ -23,9 +24,6 @@ export default function PowerListTable({
   setTasks: Dispatch<SetStateAction<any[]>>;
 }) {
   const { user } = useUser();
-  const [disableCheckbox, setDisableCheckbox] = useState(false);
-
-  console.log({ tasks });
 
   const handleDelete = async (taskId: any) => {
     if (!user) {
@@ -39,70 +37,79 @@ export default function PowerListTable({
     setTasks(tasksCopy);
   };
 
-  // TODO: handle spamming checkbox when function is running.
   const handleCheckbox = async (taskId: any, value: boolean) => {
     if (!user) {
       alert('unable to update this task.');
       return;
     }
     try {
-      setDisableCheckbox(true);
       await updateDoc(doc(db, 'tasks', user.id, collectionDate(), taskId), {
         isCompleted: value,
       });
       getTasks(user, setTasks);
-      setDisableCheckbox(false);
     } catch (error) {
       console.error(error);
-    } finally {
-      setDisableCheckbox(false);
     }
   };
 
+  const allTasksCompleted = tasks.every((task: Task) => task.isCompleted);
+
   if (tasks.length) {
     return (
-      <TableRoot>
-        <TableHeader>
-          <TableRow align="center">
-            <TableColumnHeaderCell></TableColumnHeaderCell>
-            <TableColumnHeaderCell justify="center">Task</TableColumnHeaderCell>
-            <TableColumnHeaderCell justify="center">
-              Completed
-            </TableColumnHeaderCell>
-            <TableColumnHeaderCell justify="center">
-              Action
-            </TableColumnHeaderCell>
-          </TableRow>
-        </TableHeader>
+      <>
+        {allTasksCompleted && (
+          <div className="flex items-center justify-between">
+            <h1 className="text-9xl text-green-500">W</h1>
+            <h1 className="text-9xl text-green-500">W</h1>
+            <h1 className="text-9xl text-green-500">W</h1>
+          </div>
+        )}
+        <TableRoot>
+          <TableHeader>
+            <TableRow align="center">
+              <TableColumnHeaderCell></TableColumnHeaderCell>
+              <TableColumnHeaderCell justify="center">
+                Task
+              </TableColumnHeaderCell>
+              <TableColumnHeaderCell justify="center">
+                Completed
+              </TableColumnHeaderCell>
+              <TableColumnHeaderCell justify="center">
+                Action
+              </TableColumnHeaderCell>
+            </TableRow>
+          </TableHeader>
 
-        <TableBody>
-          {tasks.map((task, index) => {
-            return (
-              <TableRow key={task.id} align="center">
-                <TableCell>{index + 1}</TableCell>
-                <TableCell justify="center">
-                  <p className={`${task.isCompleted && 'line-through'}`}>
-                    {task.task}
-                  </p>
-                </TableCell>
-                <TableCell justify="center">
-                  <input
-                    type="checkbox"
-                    checked={task.isCompleted}
-                    onChange={(e) => handleCheckbox(task.id, e.target.checked)}
-                    disabled={disableCheckbox}
-                  />
-                </TableCell>
-                <TableCell justify="center">
-                  <Button onClick={() => handleDelete(task.id)} color="red">
-                    Delete
-                  </Button>
-                </TableCell>
-              </TableRow>
-            );
-          })}
-        </TableBody>
-      </TableRoot>
+          <TableBody>
+            {tasks.map((task, index) => {
+              return (
+                <TableRow key={task.id} align="center">
+                  <TableCell>{index + 1}</TableCell>
+                  <TableCell justify="center">
+                    <p className={`${task.isCompleted && 'line-through'}`}>
+                      {task.task}
+                    </p>
+                  </TableCell>
+                  <TableCell justify="center">
+                    <input
+                      type="checkbox"
+                      checked={task.isCompleted}
+                      onChange={(e) =>
+                        handleCheckbox(task.id, e.target.checked)
+                      }
+                    />
+                  </TableCell>
+                  <TableCell justify="center">
+                    <Button onClick={() => handleDelete(task.id)} color="red">
+                      Delete
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </TableRoot>
+      </>
     );
   }
 
