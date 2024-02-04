@@ -1,6 +1,5 @@
 import { db } from '@/firebase/config';
 import {
-  DocumentData,
   collection,
   doc,
   getDocs,
@@ -8,12 +7,13 @@ import {
   query,
   updateDoc,
 } from 'firebase/firestore';
-import { Dispatch, SetStateAction } from 'react';
+import { SetStateAction } from 'react';
 import { collectionDate } from './dateHelpers';
+import { Task } from '@/typings';
 
 export const getTasks = async (
   user: any,
-  setTasks: (value: SetStateAction<DocumentData[]>) => void
+  setTasks: (value: SetStateAction<Task[]>) => void
 ) => {
   if (!user) return;
   const collectionRef = collection(db, 'tasks', user.id, collectionDate());
@@ -21,13 +21,13 @@ export const getTasks = async (
 
   try {
     const querySnapshot = await getDocs(q);
-    // const querySnapshot = await getDocs(
-    //   collection(db, 'tasks', user.id, collectionDate())
-    // );
 
-    const userTasks = querySnapshot.docs.map((doc) => ({
-      ...doc.data(),
+    const userTasks: Task[] = querySnapshot.docs.map((doc) => ({
       id: doc.id,
+      task: doc.data().task,
+      isCompleted: doc.data().isCompleted,
+      timestamp: doc.data().timestamp,
+      userId: doc.data().userId,
     }));
 
     setTasks(userTasks);

@@ -6,7 +6,6 @@ import { Button } from '@radix-ui/themes';
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import Link from 'next/link';
 import React, { Dispatch, SetStateAction, useState } from 'react';
-import { useTasksContext } from '../context/store';
 
 export default function PowerListForm({
   tasks,
@@ -19,8 +18,6 @@ export default function PowerListForm({
 
   const [task, setTask] = useState('');
   const [disableButton, setDisableButton] = useState(false);
-
-  // const { tasks, setTasks } = useTasksContext();
 
   const submitTask = async (e: React.FormEvent) => {
     e.preventDefault();
