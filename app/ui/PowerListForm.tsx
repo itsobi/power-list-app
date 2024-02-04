@@ -68,7 +68,7 @@ export default function PowerListForm({
         <input
           type="text"
           className="border w-[600px] p-2 rounded-md focus:outline-none focus:border-blue-600k focus:ring-1"
-          placeholder="Enter task..."
+          placeholder="Enter Power List task..."
           value={task}
           onChange={(e) => setTask(e.target.value)}
         />

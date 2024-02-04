@@ -17,7 +17,7 @@ export default function InfoPage() {
         and if you don't take actionable steps to progress yourself, you will
         become stagnant. <span className="font-bold">Now is the time.</span>{' '}
         <span className="font-bold">No more excuses</span>. Iv'e handled
-        everything for you.
+        everything for you!
       </p>
       <div className="text-center mt-4">
         <BackButton className="text-blue-600 font-bold hover:text-blue-700 hover:underline">
