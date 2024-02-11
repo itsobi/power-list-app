@@ -13,10 +13,11 @@ import { Task } from '@/typings';
 
 export const getTasks = async (
   user: any,
-  setTasks: (value: SetStateAction<Task[]>) => void
+  setTasks: (value: SetStateAction<Task[]>) => void,
+  taskDate: string
 ) => {
   if (!user) return;
-  const collectionRef = collection(db, 'tasks', user.id, collectionDate());
+  const collectionRef = collection(db, 'tasks', user.id, taskDate);
   const q = query(collectionRef, orderBy('timestamp'));
 
   try {
