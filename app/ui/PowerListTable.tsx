@@ -19,9 +19,11 @@ import { Task } from '@/typings';
 export default function PowerListTable({
   tasks,
   setTasks,
+  taskDate,
 }: {
   tasks: any[];
   setTasks: Dispatch<SetStateAction<any[]>>;
+  taskDate: string;
 }) {
   const { user } = useUser();
 
@@ -46,7 +48,7 @@ export default function PowerListTable({
       await updateDoc(doc(db, 'tasks', user.id, collectionDate(), taskId), {
         isCompleted: value,
       });
-      getTasks(user, setTasks);
+      getTasks(user, setTasks, taskDate);
     } catch (error) {
       console.error(error);
     }
@@ -97,6 +99,7 @@ export default function PowerListTable({
                       onChange={(e) =>
                         handleCheckbox(task.id, e.target.checked)
                       }
+                      disabled={taskDate !== collectionDate()}
                     />
                   </TableCell>
                   <TableCell justify="center">

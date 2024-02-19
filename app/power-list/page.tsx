@@ -36,7 +36,7 @@ export default function PowerListPage() {
       </Link>
 
       <div className="mt-10">
-        <PowerListTable tasks={tasks} setTasks={setTasks} />
+        <PowerListTable tasks={tasks} setTasks={setTasks} taskDate={taskDate} />
       </div>
     </Container>
   );

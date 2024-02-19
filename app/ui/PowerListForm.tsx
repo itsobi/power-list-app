@@ -115,8 +115,8 @@ export default function PowerListForm({
         <DropdownMenuContent>
           {dropdownDates().map((date) => {
             return (
-              <DropdownMenuItem onClick={() => setTaskDate(date)}>
-                {date}
+              <DropdownMenuItem onClick={() => setTaskDate(date.value)}>
+                {date.label === 'Today' ? 'Today' : date.value}
               </DropdownMenuItem>
             );
           })}

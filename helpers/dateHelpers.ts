@@ -55,8 +55,16 @@ export const dropdownDates = () => {
     // Format the date as a string (e.g., "MM-DD-YYYY")
     const formattedDate = `${month}-${day}-${year}`;
 
-    // Add the formatted date to the dropdown options array
-    dropdownOptions.push(formattedDate);
+    let label = '';
+    switch (i) {
+      case 0:
+        label = 'Today';
+        break;
+      default:
+        label = `${i} days ago (${formattedDate})`;
+    }
+
+    dropdownOptions.push({ value: formattedDate, label });
   }
 
   return dropdownOptions;

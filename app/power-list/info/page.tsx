@@ -19,7 +19,7 @@ export default function InfoPage() {
         <span className="font-bold">No more excuses</span>. Iv'e handled
         everything for you!
       </p>
-      <div className="text-center mt-4">
+      <div className="flex justify-center mt-4">
         <BackButton className="text-blue-600 font-bold hover:text-blue-700 hover:underline">
           Give it a try!
         </BackButton>
