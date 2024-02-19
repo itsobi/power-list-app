@@ -73,14 +73,14 @@ export default function PowerListForm({
     }
   };
   return (
-    <div className="flex justify-center items-center space-x-2 px-4">
+    <div className="flex flex-col md:flex-row justify-center items-center space-x-2 md:space-y-0 space-y-4 px-8">
       <form
         onSubmit={submitTask}
         className="flex justify-center items-center space-x-2"
       >
         <input
           type="text"
-          className={`border w-[300px] md:w-[500px] lg:w-[600px] p-2 rounded-md focus:outline-none focus:border-blue-600k focus:ring-1 ${
+          className={`border w-[220px] md:w-[400px] lg:w-[500px] p-2 rounded-md focus:outline-none focus:border-blue-600k focus:ring-1 ${
             taskDate !== collectionDate() && 'cursor-not-allowed'
           }`}
           placeholder={
